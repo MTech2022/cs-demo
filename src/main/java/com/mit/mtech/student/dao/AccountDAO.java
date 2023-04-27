@@ -1,28 +1,23 @@
 /**
- * 
+ *
  */
 package com.mit.mtech.student.dao;
 
-import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.EntityManager;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Philippe
  *
  */
-@Component
+@Repository
 public class AccountDAO {
 
     private final DataSource dataSource;
@@ -37,17 +32,20 @@ public class AccountDAO {
 
         String sql = "select " + "customer_id,acc_number,branch_id,balance from Accounts where customer_id = '" + customerId + "'";
 
+        System.out.println("----------------------------------my sql query----------------------------------------------");
+        System.out.println(sql);
+        System.out.println("-------------------------------------------------------------------------------------------");
         try (Connection c = dataSource.getConnection();
-            ResultSet rs = c.createStatement()
-                .executeQuery(sql)) {
+             ResultSet rs = c.createStatement()
+                     .executeQuery(sql)) {
             List<AccountDTO> accounts = new ArrayList<>();
             while (rs.next()) {
                 AccountDTO acc = AccountDTO.builder()
-                    .customerId(rs.getString("customer_id"))
-                    .branchId(rs.getString("branch_id"))
-                    .accNumber(rs.getString("acc_number"))
-                    .balance(rs.getBigDecimal("balance"))
-                    .build();
+                        .customerId(rs.getString("customer_id"))
+                        .branchId(rs.getString("branch_id"))
+                        .accNumber(rs.getString("acc_number"))
+                        .balance(rs.getBigDecimal("balance"))
+                        .build();
 
                 accounts.add(acc);
             }
