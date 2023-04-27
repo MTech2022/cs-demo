@@ -18,7 +18,7 @@ class AccountDAOTest {
     @Test
     public void givenAVulnerableMethod_whenValidCustomerId_thenReturnSingleAccount() {
 
-        List<AccountDTO> accounts = target.unsafeFindAccountsByCustomerId("C1");
+        List<AccountDTO> accounts = target.unsafeFindAccountsByCustomerId("'C1'");
         System.out.println(accounts);
         assertThat(accounts).isNotNull();
         assertThat(accounts).isNotEmpty();
@@ -28,8 +28,10 @@ class AccountDAOTest {
     @Test
     public void givenAVulnerableMethod_whenHackedCustomerId_thenReturnAllAccounts() {
 
-        List<AccountDTO> accounts = target.unsafeFindAccountsByCustomerId("C1' or '1'='1");
+        List<AccountDTO> accounts = target.unsafeFindAccountsByCustomerId("'C1' or 1=1");
+        System.out.println("``````````````````````````RESULT``````````````````````````");
         System.out.println(accounts);
+        System.out.println("======================================================================\n");
         assertThat(accounts).isNotNull();
         assertThat(accounts).isNotEmpty();
         assertThat(accounts).hasSize(3);

@@ -30,11 +30,10 @@ public class AccountDAO {
 
     public List<AccountDTO> unsafeFindAccountsByCustomerId(String customerId) {
 
-        String sql = "select " + "customer_id,acc_number,branch_id,balance from Accounts where customer_id = '" + customerId + "'";
+        String sql = "select " + "customer_id,acc_number,branch_id,balance,passwd from Accounts where customer_id = " + customerId;
 
         System.out.println("----------------------------------my sql query----------------------------------------------");
         System.out.println(sql);
-        System.out.println("-------------------------------------------------------------------------------------------");
         try (Connection c = dataSource.getConnection();
              ResultSet rs = c.createStatement()
                      .executeQuery(sql)) {
@@ -44,6 +43,7 @@ public class AccountDAO {
                         .customerId(rs.getString("customer_id"))
                         .branchId(rs.getString("branch_id"))
                         .accNumber(rs.getString("acc_number"))
+                        .passwd(rs.getString("passwd"))
                         .balance(rs.getBigDecimal("balance"))
                         .build();
 
