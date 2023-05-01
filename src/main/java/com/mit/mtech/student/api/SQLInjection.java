@@ -23,4 +23,10 @@ public class SQLInjection {
         List<AccountDTO> accountDTOS = accountDAO.unsafeFindAccountsByCustomerId(customerId);
         return ResponseEntity.ok(accountDTOS);
     }
+
+    @GetMapping(path = "/fetchsafe")
+    public ResponseEntity getRightPasswords(@RequestParam(name = "customerId") String customerId) {
+        List<AccountDTO> accountDTOS = accountDAO.findAccountsByCustomerIdSafe(customerId);
+        return ResponseEntity.ok(accountDTOS);
+    }
 }
